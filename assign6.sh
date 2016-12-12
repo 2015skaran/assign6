@@ -1,22 +1,32 @@
 export filename=$1
 
+# Checks if filename argument is given
 if [[ -e $filename ]];
 then
-    echo "Line Count: " wc -l $1
-    echo "word count"
+    # counts number of lines
+    echo "Line Count: " 
+    wc -l $1
+    # counts number of words
+    echo "Word Count:"
     wc -w $1
-    echo "most repeated word"
+    # finds most repetitive word
+    echo "Most Repeated Word:"
     cat $1 | tr '[:space:]' '[\n*]' | sort | uniq -c | sort -bnr | head -n 1
-    echo "least repeated word"
+    # find least repetitive word
+    echo "Least Repeated Word"
     cat $1 | tr '[:space:]' '[\n*]' | sort | uniq -c | sort -bnr | tail -n 1
-    echo "words beginning and ending with d"
+    # starts with "d" and ends with "d" can be upper or lower
+    echo "Number of Words beginning/ending with d"
     cat $1 | tr '[:space:]' '[\n*]' | grep -e '[d|D][a-zA-Z]\{0,\}[d|D]' | sort | uniq -c | sort -bnr
-    echo "words beginning with a"
+    # Starts with A or a
+    echo "Number of Words beginning with A or a"
     cat $1 | tr '[:space:]' '[\n*]' | grep -e '^[a|A][a-zA-Z]*' | sort | uniq -c | sort -bnr
-    echo "numeric words "
+    # count numeric words
+    echo "Number of Numeric words "
     cat $1 | tr '[:space:]' '[\n*]' | grep -e '[0-9]\{1,\}' | grep -v -e '[a-zA-Z@,$\(\)";]\{1,\}' | sort | wc -l
-    echo "alphanumeric words "
-    cat $1 | tr '[:space:]' '[\n*]' | grep -e '[0-9a-zA-Z]\{1,\}' | sort | wc -l
+    # count alphanumeric words
+    echo "Number of Alphanumeric words "
+    cat $1 | tr '[:space:]' '[\n*]' | grep -e '^[0-9a-zA-Z_]*$' | sort | wc -l
 else
-    echo "Please provide a file as a command line argument"
+    echo "No file name provided"
 fi
